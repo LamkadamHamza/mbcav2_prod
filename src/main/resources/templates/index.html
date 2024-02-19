@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Progression du CA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />
+    <style>
+
+        .intro {
+            height: 100%;
+        }
+
+        table td,
+        table th {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        thead th {
+            color: #fff;
+        }
+
+        .card {
+            border-radius: .5rem;
+        }
+
+        .table-scroll {
+            border-radius: .5rem;
+        }
+
+        .table-scroll table thead th {
+            font-size: 1.25rem;
+        }
+        thead {
+            top: 0;
+            position: sticky;
+        }
+        .styleText{
+            font-family:sans-serif ;
+            background-color: #58D68D;
+
+        }
+        .fixed-height-card {
+            height: 110px;
+            width:  220px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content1">
+
+    <!--Card -->
+    <nav class="p-1 m-1 text-white fw-bold text-center">
+        <div class="card mx-auto">
+            <div class="card-body mx-auto">
+
+                <ul class="nav nav-pills">
+
+                    <li class="m-2">
+                    <div id="globalSum" class="card text-white styleText mb-3 fixed-height-card" >
+                        <div class="card-header styleText">CA Global   <i class="fa fa-dollar"></i></div>
+
+                        <div class="card-body ">
+
+                            <h4 class="card-title" id="globalSumValue">
+
+
+                            </h4>
+
+                        </div>
+                    </div>
+                        <button type="button" class="btn btn-outline-danger" onclick="updateGlobalSum()">
+                            <i class="fas fa-sync"></i>
+                        </button>
+
+                </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                    <!--End card -->
+
+
+    <!-- Chiffre Globale -->
+    <script th:inline="javascript">
+        function updateGlobalSum() {
+            var rows = document.querySelectorAll('table tbody tr');
+            var globalSum = 0;
+
+            rows.forEach(function (row) {
+                var cell = row.cells[2];
+                if (cell) {
+                    var cellValue = cell.innerText.replace(',', '');
+                    globalSum += parseFloat(cellValue) || 0;
+                }
+            });
+
+            // Update the global sum in the HTML
+            var formattedGlobalSum = globalSum.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('globalSumValue').innerText = formattedGlobalSum;
+        }
+
+
+        // Call the function when the DOM content is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            updateGlobalSum();
+        });
+
+    </script>
+    <!--End chiffre globale -->
+
+    <!--Dta Time -->
+
+    <script th:inline="javascript">
+        function updateDateTime() {
+            // Get the current date and time
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('fr-FR'); // Adjust the locale as needed
+
+            // Update the date time in the HTML
+            document.getElementById('dateTimeValue').innerText = formattedDateTime;
+        }
+    </script>
+    <!-- End Date Time -->
+
+
+
+
+<div class="container-fluid">
+
+
+    <div class="row mt-5 m-lg-5">
+
+
+
+
+
+
+
+
+
+        <!-- table-->
+
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- Table-->
+                    <section class="intro">
+                        <div class="bg-image h-100" style="background-color: #f5f7fa;">
+                            <div class="mask d-flex align-items-center h-100">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-body p-0">
+                                                    <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                                        <table class="table table-striped mb-0">
+                                                            <thead style="background-color: #58D68D;">
+                                                            <tr>
+                                                                <th scope="col">ID</th>
+                                                                <th scope="col">Site</th>
+                                                                <th scope="col">CA</th>
+                                                              <th scope="col">CA_AP</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            <tr th:each="t:${ListTicket}">
+                                                                <td th:text="${t[0]}"></td>
+                                                                <td th:text="${t[1]}"></td>
+                                                                <td th:text="${#numbers.formatDecimal(t[2], 0, 'COMMA', 2, 'POINT')}"></td>
+                                                                <td th:text="${#numbers.formatDecimal(t[3], 0, 'COMMA', 2, 'POINT')}"></td>
+                                                            </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- End Table-->
+
+
+
+
+
+
+        <!-- chart-->
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <script src="https://code.highcharts.com/highcharts.js"></script>
+                    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+                    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        <p class="highcharts-description" style="">
+                            Ce graphique illustre le chiffre d'affaires par magasin.
+                            L'axe horizontal liste les magasins, tandis que l'axe vertical représente
+                            le chiffre d'affaires en dirhams (DH). Chaque colonne correspond à un magasin
+                            et sa hauteur indique le montant du chiffre d'affaires généré.
+                        </p>
+                        <!-- <div id="sliders">
+                             <table>
+                                 <tr>
+                                     <td><label for="alpha">Alpha Angle</label></td>
+                                     <td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
+                                 </tr>
+                                 <tr>
+                                     <td><label for="beta">Beta Angle</label></td>
+                                     <td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
+                                 </tr>
+                                 <tr>
+                                     <td><label for="depth">Depth</label></td>
+                                     <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
+                                 </tr>
+                             </table>
+                         </div>-->
+                    </figure>
+
+                    <style>
+
+
+                        #container {
+                            height: 400px;
+                        }
+
+                        .highcharts-figure,
+                        .highcharts-data-table table {
+                            min-width: 310px;
+                            max-width: 800px;
+                            margin: 1em auto;
+                        }
+
+                        #sliders td input[type="range"] {
+                            display: inline;
+                        }
+
+                        #sliders td {
+                            padding-right: 1em;
+                            white-space: nowrap;
+                        }
+
+
+                    </style>
+
+                    <script th:inline="javascript">
+
+                        var siteData = /*[[${site}]]*/
+                        var caData = /*[[${ca}]]*/
+                        var NomData=/*[[${Nom}]]*/
+
+                        const chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'container',
+                                type: 'column',
+                                options3d: {
+                                    enabled: true,
+                                    alpha: 15,
+                                    beta: 15,
+                                    depth: 50,
+                                    viewDistance: 25
+                                }
+                            },
+                            xAxis: {
+                                categories: NomData,
+
+                            },
+                            yAxis: {
+                                title: {
+                                    enabled: false
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<b>{point.key} </b><br>',
+                                pointFormat: 'CA: {point.y} DH'
+                            },
+                            title: {
+                                text: 'Progression du CA',
+                                align: 'left'
+                            },
+                            subtitle: {
+
+                                align: 'left'
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            plotOptions: {
+                                column: {
+                                    depth: 25
+                                }
+                            },
+                            series: [{
+                                data: caData,
+                                colorByPoint: true
+                            }]
+                        });
+
+                        function showValues() {
+                            document.getElementById('alpha-value').innerHTML = chart.options.chart.options3d.alpha;
+                            document.getElementById('beta-value').innerHTML = chart.options.chart.options3d.beta;
+                            document.getElementById('depth-value').innerHTML = chart.options.chart.options3d.depth;
+                        }
+
+                        // Activate the sliders
+                        document.querySelectorAll('#sliders input').forEach(input => input.addEventListener('input', e => {
+                            chart.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                            showValues();
+                            chart.redraw(false);
+                        }));
+
+                        showValues();
+
+                    </script>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!--End  chart-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+</div>
+</body>
+</html>
