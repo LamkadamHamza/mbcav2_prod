@@ -175,16 +175,16 @@
                                                                 <th scope="col">ID</th>
                                                                 <th scope="col">Site</th>
                                                                 <th scope="col">CA</th>
-                                                              <th scope="col">CA_AP</th>
+
                                                             </tr>
                                                             </thead>
                                                             <tbody>
 
                                                             <tr th:each="t:${ListTicket}">
+                                                                <td th:text="${t[2]}"></td>
                                                                 <td th:text="${t[0]}"></td>
-                                                                <td th:text="${t[1]}"></td>
-                                                                <td th:text="${#numbers.formatDecimal(t[2], 0, 'COMMA', 2, 'POINT')}"></td>
-                                                                <td th:text="${#numbers.formatDecimal(t[3], 0, 'COMMA', 2, 'POINT')}"></td>
+                                                                <td th:text="${#numbers.formatDecimal(t[1], 0, 'COMMA', 2, 'POINT')}"></td>
+
                                                             </tr>
 
 

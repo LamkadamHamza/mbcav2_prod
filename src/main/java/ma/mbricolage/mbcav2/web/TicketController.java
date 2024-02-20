@@ -55,13 +55,14 @@ public class TicketController {
         List<Object[]> tickets =cashtickRepository.yourCustomQuery();
 
         List<Long> siteList = tickets.stream().map(row -> ((Number) row[0]).longValue()).collect(Collectors.toList());
-        List<Double> caList = tickets.stream().map(row -> ((Number) row[2]).doubleValue()).collect(Collectors.toList());
-        List<Double> caapList = tickets.stream().map(row -> ((Number) row[3]).doubleValue()).collect(Collectors.toList());
-        List<String> NomList = tickets.stream().map(row -> ((String) row[1])).toList();
+       List<String> NomList = tickets.stream().map(row -> ((String) row[2])).toList();
+        List<Double> caList = tickets.stream().map(row -> ((Number) row[1]).doubleValue()).collect(Collectors.toList());
+       // List<Double> caapList = tickets.stream().map(row -> ((Number) row[3]).doubleValue()).collect(Collectors.toList());
+
         // Add the lists to the model
         model.addAttribute("site", siteList);
         model.addAttribute("ca", caList);
-      model.addAttribute("caap", caapList);
+    // model.addAttribute("caap", caapList);
         model.addAttribute("Nom",NomList);
         model.addAttribute("ListTicket", tickets);
         return "index";
